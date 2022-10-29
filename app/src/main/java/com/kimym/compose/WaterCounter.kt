@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,17 +19,8 @@ fun WaterCounter(modifier: Modifier = Modifier) {
          * Changes to count are now tracked by Compose.
          * val count: MutableState<Int> = remember { mutableStateOf(0) }
          */
-        var count by remember { mutableStateOf(0) }
+        var count by rememberSaveable { mutableStateOf(0) }
         if (count > 0) {
-            var showTask by remember { mutableStateOf(true) }
-            if (showTask) {
-                WellnessTaskItem(
-                    taskName = "Have you taken your 15 minute walk today?",
-                    onClose = { showTask = false }
-                )
-            }
-            // This text is present if the button has been clicked
-            // at least once; absent otherwise
             Text(text = "You've had $count glasses.")
         }
         Button(onClick = { count++ }, Modifier.padding(top = 8.dp), enabled = count < 10) {
